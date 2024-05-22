@@ -38,7 +38,8 @@ def save(order_data):
         return new_order
 
 
-def find_all():
-    query = select(Order)
+def find_all(page=1, per_page=10):
+    offset = (page - 1) * per_page
+    query = select(Order).limit(per_page).offset(offset)
     orders = db.session.execute(query).scalars().all()
     return orders

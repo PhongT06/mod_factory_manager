@@ -16,5 +16,8 @@ def save():
         return jsonify({'error': str(err)}), 400
 
 def find_all():
-    orders = orderService.find_all()
+    args = request.args
+    page = args.get('page', 1, type=int)
+    per_page = args.get('per_page', 10, type=int)
+    orders = orderService.find_all(page, per_page)
     return orders_schema.jsonify(orders)
