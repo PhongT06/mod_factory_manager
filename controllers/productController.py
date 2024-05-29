@@ -2,9 +2,13 @@ from flask import request, jsonify
 from schemas.productSchema import product_schema, products_schema
 from services import productService
 from marshmallow import ValidationError
+from auth import token_auth
 
 
+@token_auth.login_required(role="admin")
 def save():
+    # logged_in_customer = token_auth.current_user()
+    # print(logged_in_customer)
     try:
         product_data = product_schema.load(request.json)
     except ValidationError as err:
@@ -24,3 +28,5 @@ def find_all():
     search_term = args.get('search')
     products = productService.find_all(page, per_page, search_term)
     return products_schema.jsonify(products)
+
+
