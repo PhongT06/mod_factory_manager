@@ -46,12 +46,11 @@ def blueprint_config(app):
 def config_rate_limit():
     limiter.limit("100 per hour")(customer_blueprint)
     limiter.limit("100 per hour")(product_blueprint)
+    limiter.limit("100 per hour")(employee_blueprint)
+    limiter.limit("100 per hour")(order_blueprint)
+    limiter.limit("100 per hour")(production_blueprint)
 
 if __name__ == "__main__":
     app = create_app('DevelopmentConfig')
-
     app.run(debug=True, port=5001)
 
-    # with app.app_context():
-    #     db.drop_all()
-        # db.create_all()
